@@ -18,3 +18,7 @@ If you want to deploy your infrastructure and test it, you need to follow these 
 
 
 Use command `open ~/.aws/credentials` in WebStorm terminal to open the file where you have to add the aws credentials.
+
+Estimated working days in total: 2 
+
+Hope you like it :)
