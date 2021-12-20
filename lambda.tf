@@ -73,10 +73,10 @@ resource "aws_lambda_permission" "apigw" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.example.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.example.execution_arn}/*/GET/calculus/*"
 }
 
 
 output "base_url" {
-  value = aws_api_gateway_deployment.example.invoke_url
+  value = "${aws_api_gateway_deployment.example.invoke_url}/calculus/MiAqICgyMy8oMyozKSktIDIzICogKDIqMyk="
 }

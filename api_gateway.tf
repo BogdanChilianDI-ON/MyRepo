@@ -16,7 +16,7 @@ resource "aws_api_gateway_method" "proxy" {
   rest_api_id   = aws_api_gateway_rest_api.example.id
   resource_id   = aws_api_gateway_resource.proxy.id
   request_parameters = {"method.request.querystring.input" = true}
-  request_validator_id= aws_api_gateway_request_validator.example1.id
+ // request_validator_id= aws_api_gateway_request_validator.example1.id
 
   http_method   = "GET"
   authorization = "NONE"
@@ -67,6 +67,14 @@ resource "aws_api_gateway_integration_response" "MyDemoIntegrationResponse" {
   response_templates = {
     "application/json" = ""
   }
+
+  depends_on = [
+    aws_api_gateway_rest_api.example,
+    aws_api_gateway_resource.proxy,
+    aws_api_gateway_method.proxy,
+    aws_api_gateway_method_response.response_200,
+    aws_api_gateway_integration.lambda
+  ]
 }
 
 ////next path: /input
@@ -79,8 +87,6 @@ resource "aws_api_gateway_resource" "proxy2" {
 resource "aws_api_gateway_method" "proxy2" {
   rest_api_id   = aws_api_gateway_rest_api.example.id
   resource_id   = aws_api_gateway_resource.proxy2.id
-  request_parameters = {"method.request.querystring.input" = true}
-  request_validator_id= aws_api_gateway_request_validator.example1.id
 
   http_method   = "GET"
   authorization = "NONE"
@@ -124,12 +130,15 @@ resource "aws_api_gateway_integration_response" "MyDemoIntegrationResponse2" {
   response_templates = {
     "application/json" = ""
   }
+
+  depends_on = [
+    aws_api_gateway_rest_api.example,
+    aws_api_gateway_resource.proxy2,
+    aws_api_gateway_method.proxy,
+    aws_api_gateway_method_response.response2_200,
+    aws_api_gateway_integration.lambda2
+  ]
 }
-
-
-
-
-
 
 
 resource "aws_api_gateway_deployment" "example" {
@@ -139,7 +148,7 @@ resource "aws_api_gateway_deployment" "example" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.example.id
-  stage_name  = "query"
+  stage_name  = "api"
 }
 
 
